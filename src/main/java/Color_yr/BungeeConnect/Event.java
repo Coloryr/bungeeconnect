@@ -19,20 +19,25 @@ public class Event implements Listener {
             Random randomno = new Random();
             boolean value = randomno.nextBoolean();
             ServerInfo Toserver;
-            if (value == true)
+            if (value == true) {
                 Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
-            else
+            }
+            else {
                 Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122B);
+            }
             BungeeConnect.log.info("[BungeeConnect]将玩家送至1.12.2服务器");
             event.getPlayer().connect(Toserver);
+            return;
         } else if (Vision == 5) {
             ServerInfo Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1710);
             BungeeConnect.log.info("[BungeeConnect]将玩家送至1.7.10服务器");
             event.getPlayer().connect(Toserver);
+            return;
         } else if (Vision == 404) {
             ServerInfo Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1132);
             BungeeConnect.log.info("[BungeeConnect]将玩家送至1.13.2服务器");
             event.getPlayer().connect(Toserver);
+            return;
         }
         logs logs = new logs();
         logs.log_write("" + Vision);

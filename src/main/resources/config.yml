@@ -1,9 +1,10 @@
 #1.7.10传送至的服务器
-Server1710: heartage1
+Server1710: heartage3
 #1.12.2传送至的服务器
-Server1122: heartage2
+Server1122A: heartage1
+Server1122B: heartage2
 #1.13.2传送至的服务器
-Server1132: heartage3
+Server1132: heartage4
 #默认子服
 Servers: heartage0
 #配置文件版本号

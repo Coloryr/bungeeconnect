@@ -21,8 +21,7 @@ public class Event implements Listener {
             ServerInfo Toserver;
             if (value == true) {
                 Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
-            }
-            else {
+            } else {
                 Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122B);
             }
             BungeeConnect.log.info("[BungeeConnect]将玩家送至1.12.2服务器");
@@ -49,7 +48,8 @@ public class Event implements Listener {
         if (Toserver.equals(event.getKickedFrom())) {
             return;
         }
-        BungeeConnect.log.info("[BungeeConnect]将玩家送至默认服务器");
+        if (BungeeConnect.HaveNull == true && event.getCancelServer() == BungeeConnect.Null)
+            BungeeConnect.log.info("[BungeeConnect]将玩家送至默认服务器");
         event.setCancelled(true);
         event.getPlayer().connect(Toserver);
     }

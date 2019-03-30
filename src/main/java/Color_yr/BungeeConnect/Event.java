@@ -49,6 +49,8 @@ public class Event implements Listener {
             return;
         }
         if (BungeeConnect.HaveNull == true && event.getCancelServer() == BungeeConnect.Null)
+            event.setCancelled(true);
+        else
             BungeeConnect.log.info("[BungeeConnect]将玩家送至默认服务器");
         event.setCancelled(true);
         event.getPlayer().connect(Toserver);

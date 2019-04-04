@@ -19,8 +19,8 @@ public class Event implements Listener {
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
         int Vision = event.getPlayer().getPendingConnection().getVersion();
+        ServerInfo Toserver = null;
         if (Vision == 340) {
-            ServerInfo Toserver;
             if (players.size() == 0) {
                 Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
             } else {
@@ -34,38 +34,22 @@ public class Event implements Listener {
                 } else {
                     Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
                 }
-                BungeeConnect.log.info("[BungeeConnect]玩家进入下一个1.12.2服务器");
             }
-            BungeeConnect.log.info("[BungeeConnect]将玩家送至1.12.2服务器");
-            event.getPlayer().connect(Toserver);
-            return;
         } else if (Vision == 5) {
-            ServerInfo Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1710);
-            BungeeConnect.log.info("[BungeeConnect]将玩家送至1.7.10服务器");
-            event.getPlayer().connect(Toserver);
-            return;
+            Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1710);
         } else if (Vision == 404) {
-            ServerInfo Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1132);
-            BungeeConnect.log.info("[BungeeConnect]将玩家送至1.13.2服务器");
+            Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1132);
+        }
+        BungeeConnect.log.info("[BungeeConnect]将玩家送至1.12.2服务器");
+        if (Toserver != null) {
             event.getPlayer().connect(Toserver);
-            return;
         }
         logs logs = new logs();
         logs.log_write("" + Vision);
     }
-
     @EventHandler
     public void onServerKickEvent(ServerKickEvent event) {
-        if (event.getKickedFrom().toString() != BungeeConnect.Server1122A)
-            return;
-        else if (event.getKickedFrom().toString() != BungeeConnect.Server1122B)
-            return;
-        else if (event.getKickedFrom().toString() != BungeeConnect.Server1122C)
-            return;
-        else {
-            players.put(event.getPlayer().toString(), event.getKickedFrom());
-            BungeeConnect.log.info("[BungeeConnect]从" + event.getKickedFrom().getName() + "踢出");
-        }
-
+        players.put(event.getPlayer().toString(), event.getKickedFrom());
+        BungeeConnect.log.info("[BungeeConnect]从" + event.getKickedFrom().getName() + "踢出");
     }
 }

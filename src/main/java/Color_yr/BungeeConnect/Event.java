@@ -14,7 +14,7 @@ import java.util.Random;
 import static Color_yr.BungeeConnect.BungeeConnect.Servers;
 
 public class Event implements Listener {
-    static Map<String, String> players = new HashMap<String, String>();
+    static Map<String, ServerInfo> players = new HashMap<String, ServerInfo>();
 
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
@@ -24,17 +24,19 @@ public class Event implements Listener {
             if (players.size() == 0) {
                 Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
             } else {
-                if (BungeeConnect.Server1122A == players.get(event.toString())) {
+                String Formserver = players.get(event.getPlayer().getDisplayName()).getName();
+                if (BungeeConnect.Server1122A == Formserver) {
                     Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122B);
-                } else if (players.get(event.toString()) == BungeeConnect.Server1122B) {
+                } else if (BungeeConnect.Server1122B == Formserver) {
                     Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122C);
-                } else if (players.get(event.toString()) == BungeeConnect.Server1122C) {
+                } else if (BungeeConnect.Server1122C == Formserver) {
                     Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
                 } else {
                     Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
                 }
-                BungeeConnect.log.info("[BungeeConnect]将玩家送至1.12.2服务器");
+                BungeeConnect.log.info("[BungeeConnect]玩家进入下一个1.12.2服务器");
             }
+            BungeeConnect.log.info("[BungeeConnect]将玩家送至1.12.2服务器");
             event.getPlayer().connect(Toserver);
             return;
         } else if (Vision == 5) {
@@ -60,7 +62,10 @@ public class Event implements Listener {
             return;
         else if (event.getKickedFrom().toString() != BungeeConnect.Server1122C)
             return;
-        else
-            players.put(event.getPlayer().toString(), event.getKickedFrom().getName());
+        else {
+            players.put(event.getPlayer().toString(), event.getKickedFrom());
+            BungeeConnect.log.info("[BungeeConnect]从" + event.getKickedFrom().getName() + "踢出");
+        }
+
     }
 }

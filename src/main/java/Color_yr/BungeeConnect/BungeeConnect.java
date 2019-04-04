@@ -19,6 +19,7 @@ public class BungeeConnect extends Plugin {
     public static String Server1710;
     public static String Server1122A;
     public static String Server1122B;
+    public static String Server1122C;
     public static String Server1132;
 
     public static String NullServer;
@@ -39,6 +40,7 @@ public class BungeeConnect extends Plugin {
         Server1710 = config.getString("Server1710", "heartage0");
         Server1122A = config.getString("Server1122A", "heartage0");
         Server1122B = config.getString("Server1122B", "heartage0");
+        Server1122C = config.getString("Server1122C", "heartage3");
         Server1132 = config.getString("Server1132", "heartage0");
 
         Servers = config.getString("Servers", "heartage0");

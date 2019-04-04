@@ -7,23 +7,25 @@ import net.md_5.bungee.api.event.ServerKickEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
+import java.util.Map;
 import java.util.Random;
 
 import static Color_yr.BungeeConnect.BungeeConnect.Servers;
 
 public class Event implements Listener {
+    public Map<String ,String> players;
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
         int Vision = event.getPlayer().getPendingConnection().getVersion();
         if (Vision == 340) {
-            Random randomno = new Random();
-            boolean value = randomno.nextBoolean();
             ServerInfo Toserver;
-            if (value == true) {
-                Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
-            } else {
+            if (players.get(event.toString())==BungeeConnect.Server1122A) {
                 Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122B);
-            }
+            } else if(players.get(event.toString())==BungeeConnect.Server1122B){
+                Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122C);
+            } else if(players.get(event.toString())==BungeeConnect.Server1122C){
+                Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
+            }else {Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);}
             BungeeConnect.log.info("[BungeeConnect]将玩家送至1.12.2服务器");
             event.getPlayer().connect(Toserver);
             return;
@@ -44,15 +46,13 @@ public class Event implements Listener {
 
     @EventHandler
     public void onServerKickEvent(ServerKickEvent event) {
-        ServerInfo Toserver = ProxyServer.getInstance().getServerInfo(Servers);
-        if (Toserver.equals(event.getKickedFrom())) {
+        if (event.getKickedFrom().toString()!=BungeeConnect.Server1122A)
             return;
-        }
-        if (BungeeConnect.HaveNull == true && event.getCancelServer() == BungeeConnect.Null)
-            event.setCancelled(true);
+        else if (event.getKickedFrom().toString()!=BungeeConnect.Server1122B)
+            return;
+        else if (event.getKickedFrom().toString()!=BungeeConnect.Server1122C)
+            return;
         else
-            BungeeConnect.log.info("[BungeeConnect]将玩家送至默认服务器");
-        event.setCancelled(true);
-        event.getPlayer().connect(Toserver);
+            players.put(event.getPlayer().toString(),event.getKickedFrom().getName());
     }
 }

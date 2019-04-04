@@ -8,7 +8,5 @@ Server1122C: heartage3
 Server1132: heartage4
 #默认子服
 Servers: heartage0
-#空子服
-NullServer: null
 #配置文件版本号
 Version: 1.0.0

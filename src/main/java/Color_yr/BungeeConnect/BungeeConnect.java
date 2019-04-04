@@ -22,14 +22,10 @@ public class BungeeConnect extends Plugin {
     public static String Server1122C;
     public static String Server1132;
 
-    public static String NullServer;
-
     public static String Servers;
 
     public static Configuration config;
     private static File FileName;
-
-    public static ServerInfo Null;
     public static boolean HaveNull;
 
     public static Logger log = ProxyServer.getInstance().getLogger();
@@ -44,8 +40,6 @@ public class BungeeConnect extends Plugin {
         Server1132 = config.getString("Server1132", "heartage0");
 
         Servers = config.getString("Servers", "heartage0");
-
-        NullServer = config.getString("NullServer", "null");
     }
 
     public static void reloadConfig() {
@@ -89,11 +83,6 @@ public class BungeeConnect extends Plugin {
         reloadConfig();
         ProxyServer.getInstance().getPluginManager().registerListener(this, new Event());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new command());
-        Null = ProxyServer.getInstance().getServerInfo(NullServer);
-        if(Null!=null)
-            HaveNull=true;
-        else
-            HaveNull=false;
         log.info("[BungeeConnect]已启动，你运行的版本是：" + Version);
     }
 

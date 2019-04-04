@@ -17,6 +17,7 @@ public class command extends Command {
                 sender.sendMessage(new TextComponent("&6[BungeeConnect]1.7.10传送至" + BungeeConnect.Server1710));
                 sender.sendMessage(new TextComponent("&6[BungeeConnect]1.12.2A传送至" + BungeeConnect.Server1122A));
                 sender.sendMessage(new TextComponent("&6[BungeeConnect]1.12.2B传送至" + BungeeConnect.Server1122B));
+                sender.sendMessage(new TextComponent("&6[BungeeConnect]1.12.2B传送至" + BungeeConnect.Server1122C));
                 sender.sendMessage(new TextComponent("&6[BungeeConnect]1.13.2传送至" + BungeeConnect.Server1132));
                 sender.sendMessage(new TextComponent("&6[BungeeConnect]默认传送至" + BungeeConnect.Servers));
                 return;

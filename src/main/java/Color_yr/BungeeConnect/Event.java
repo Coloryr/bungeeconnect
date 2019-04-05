@@ -11,27 +11,28 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import static Color_yr.BungeeConnect.BungeeConnect.Servers;
-
 public class Event implements Listener {
-    static Map<String, ServerInfo> players = new HashMap<String, ServerInfo>();
+    static Map<String, String> players = new HashMap<String, String>();
 
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
         int Vision = event.getPlayer().getPendingConnection().getVersion();
         ServerInfo Toserver = null;
         if (Vision == 340) {
-            if (players.size() == 0) {
+            BungeeConnect.log.info(players.toString());
+            if(players.size() == 0)
+            {
                 Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
-            } else {
-                String Formserver = players.get(event.getPlayer().getDisplayName()).getName();
-                if (BungeeConnect.Server1122A == Formserver) {
+            }
+            else {
+                String Formserver = players.get(event.getPlayer().getDisplayName());
+                if (BungeeConnect.Server1122A.equalsIgnoreCase(Formserver)) {
                     Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122B);
-                } else if (BungeeConnect.Server1122B == Formserver) {
+                } else if (BungeeConnect.Server1122B.equalsIgnoreCase(Formserver)) {
                     Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122C);
-                } else if (BungeeConnect.Server1122C == Formserver) {
+                } else if (BungeeConnect.Server1122C.equalsIgnoreCase(Formserver)) {
                     Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
-                } else {
+                }else{
                     Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
                 }
             }
@@ -40,16 +41,19 @@ public class Event implements Listener {
         } else if (Vision == 404) {
             Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1132);
         }
-        BungeeConnect.log.info("[BungeeConnect]将玩家送至1.12.2服务器");
+
         if (Toserver != null) {
+            BungeeConnect.log.info("[BungeeConnect]将玩家送至服务器" + Toserver.getName());
             event.getPlayer().connect(Toserver);
         }
-        logs logs = new logs();
-        logs.log_write("" + Vision);
     }
+
     @EventHandler
     public void onServerKickEvent(ServerKickEvent event) {
-        players.put(event.getPlayer().toString(), event.getKickedFrom());
-        BungeeConnect.log.info("[BungeeConnect]从" + event.getKickedFrom().getName() + "踢出");
+        BungeeConnect.log.info("[BungeeConnect]玩家" + event.getPlayer().getDisplayName() + "从" + event.getKickedFrom().getName() + "踢出");
+        if (!event.getKickedFrom().getName().equals(BungeeConnect.Servers)) {
+            players.put(event.getPlayer().getDisplayName(), event.getKickedFrom().getName());
+            BungeeConnect.log.info("[BungeeConnect]设置玩家" + event.getPlayer().getDisplayName() + "被踢出服务器" + event.getKickedFrom().getName());
+        }
     }
 }

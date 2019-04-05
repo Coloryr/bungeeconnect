@@ -26,7 +26,6 @@ public class BungeeConnect extends Plugin {
 
     public static Configuration config;
     private static File FileName;
-    public static boolean HaveNull;
 
     public static Logger log = ProxyServer.getInstance().getLogger();
 
@@ -34,12 +33,12 @@ public class BungeeConnect extends Plugin {
         log.info("[BungeeConnect]你的配置文件版本是：" + config.getString("Version"));
 
         Server1710 = config.getString("Server1710", "heartage0");
-        Server1122A = config.getString("Server1122A", "heartage0");
-        Server1122B = config.getString("Server1122B", "heartage0");
+        Server1122A = config.getString("Server1122A", "heartage1");
+        Server1122B = config.getString("Server1122B", "heartage2");
         Server1122C = config.getString("Server1122C", "heartage3");
-        Server1132 = config.getString("Server1132", "heartage0");
+        Server1132 = config.getString("Server1132", "heartage4");
 
-        Servers = config.getString("Servers", "heartage0");
+        Servers = config.getString("Servers", "lobby");
     }
 
     public static void reloadConfig() {
@@ -83,6 +82,12 @@ public class BungeeConnect extends Plugin {
         reloadConfig();
         ProxyServer.getInstance().getPluginManager().registerListener(this, new Event());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new command());
+        log.info("[BungeeConnect]1.12.2A服务器名字" + Server1122A);
+        log.info("[BungeeConnect]1.12.2B服务器名字" + Server1122B);
+        log.info("[BungeeConnect]1.12.2C服务器名字" + Server1122C);
+
+
+        log.info("[BungeeConnect]大厅服务器名字" + Servers);
         log.info("[BungeeConnect]已启动，你运行的版本是：" + Version);
     }
 

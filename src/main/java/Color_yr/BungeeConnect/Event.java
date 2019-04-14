@@ -1,6 +1,8 @@
 package Color_yr.BungeeConnect;
 
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.event.ServerKickEvent;
@@ -18,42 +20,50 @@ public class Event implements Listener {
     public void onPostLogin(PostLoginEvent event) {
         int Vision = event.getPlayer().getPendingConnection().getVersion();
         ServerInfo Toserver = null;
-        if (Vision == 340) {
-            BungeeConnect.log.info(players.toString());
-            if(players.size() == 0)
-            {
-                Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
-            }
-            else {
-                String Formserver = players.get(event.getPlayer().getDisplayName());
-                if (BungeeConnect.Server1122A.equalsIgnoreCase(Formserver)) {
-                    Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122B);
-                } else if (BungeeConnect.Server1122B.equalsIgnoreCase(Formserver)) {
-                    Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122C);
-                } else if (BungeeConnect.Server1122C.equalsIgnoreCase(Formserver)) {
+        switch (Vision) {
+            case 340:
+                BungeeConnect.log.info(players.toString());
+                if (players.size() == 0) {
                     Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
-                }else{
-                    Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
+                } else {
+                    String Formserver = players.get(event.getPlayer().getDisplayName());
+                    if (BungeeConnect.Server1122A.equalsIgnoreCase(Formserver)) {
+                        Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122B);
+                    } else if (BungeeConnect.Server1122B.equalsIgnoreCase(Formserver)) {
+                        Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122C);
+                    } else if (BungeeConnect.Server1122C.equalsIgnoreCase(Formserver)) {
+                        Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
+                    } else {
+                        Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
+                    }
                 }
-            }
-        } else if (Vision == 5) {
-            Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1710);
-        } else if (Vision == 404) {
-            Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1132);
+                break;
+            case 5:
+                Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1710);
+                break;
+            case 404:
+                Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1132);
+                break;
+            case 47:
+                Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server189);
+                break;
+            default:
+                logs logs = new logs();
+                logs.log_write(event.toString() + "版本：" + Vision);
+                break;
         }
-
         if (Toserver != null) {
-            BungeeConnect.log.info("[BungeeConnect]将玩家送至服务器" + Toserver.getName());
+            event.getPlayer().sendMessage(new TextComponent("[BungeeConnect]已将你传送至"+Toserver.getName()));
             event.getPlayer().connect(Toserver);
         }
     }
 
     @EventHandler
     public void onServerKickEvent(ServerKickEvent event) {
-        BungeeConnect.log.info("[BungeeConnect]玩家" + event.getPlayer().getDisplayName() + "从" + event.getKickedFrom().getName() + "踢出");
         if (!event.getKickedFrom().getName().equals(BungeeConnect.Servers)) {
             players.put(event.getPlayer().getDisplayName(), event.getKickedFrom().getName());
-            BungeeConnect.log.info("[BungeeConnect]设置玩家" + event.getPlayer().getDisplayName() + "被踢出服务器" + event.getKickedFrom().getName());
         }
+        event.getPlayer().sendMessage(new TextComponent("[BungeeConnect]无法进入服务器"+event.getKickedFrom().getName()));
+
     }
 }

@@ -20,40 +20,42 @@ public class Event implements Listener {
     public void onPostLogin(PostLoginEvent event) {
         int Vision = event.getPlayer().getPendingConnection().getVersion();
         ServerInfo Toserver = null;
-        switch (Vision) {
-            case 340:
-                String Formserver = bind.get(event.getPlayer().getDisplayName());
-                if (Formserver != null) {
-                    Toserver = ProxyServer.getInstance().getServerInfo(Formserver);
-                } else if (players.size() == 0) {
-                    Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
-                } else {
-                    Formserver = players.get(event.getPlayer().getDisplayName());
-                    if (BungeeConnect.Server1122A.equalsIgnoreCase(Formserver)) {
-                        Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122B);
-                    } else if (BungeeConnect.Server1122B.equalsIgnoreCase(Formserver)) {
-                        Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122C);
-                    } else if (BungeeConnect.Server1122C.equalsIgnoreCase(Formserver)) {
+        String Formserver = bind.get(event.getPlayer().getDisplayName());
+        BungeeConnect.log.info(bind.toString());
+        if (Formserver != null) {
+            Toserver = ProxyServer.getInstance().getServerInfo(Formserver);
+        } else
+            switch (Vision) {
+                case 340:
+                    if (players.size() == 0) {
                         Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
                     } else {
-                        Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
+                        Formserver = players.get(event.getPlayer().getDisplayName());
+                        if (BungeeConnect.Server1122A.equalsIgnoreCase(Formserver)) {
+                            Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122B);
+                        } else if (BungeeConnect.Server1122B.equalsIgnoreCase(Formserver)) {
+                            Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122C);
+                        } else if (BungeeConnect.Server1122C.equalsIgnoreCase(Formserver)) {
+                            Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
+                        } else {
+                            Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
+                        }
                     }
-                }
-                break;
-            case 5:
-                //Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1710);
-                break;
-            case 404:
-                Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1132);
-                break;
-            case 47:
-                //Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server189);
-                break;
-            default:
-                logs logs = new logs();
-                logs.log_write(event.toString() + "版本：" + Vision);
-                break;
-        }
+                    break;
+                case 5:
+                    //Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1710);
+                    break;
+                case 404:
+                    Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1132);
+                    break;
+                case 47:
+                    //Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server189);
+                    break;
+                default:
+                    logs logs = new logs();
+                    logs.log_write(event.toString() + "版本：" + Vision);
+                    break;
+            }
         if (Toserver != null) {
             event.getPlayer().sendMessage(new TextComponent("[BungeeConnect]已将你传送至" + Toserver.getName()));
             event.getPlayer().connect(Toserver);

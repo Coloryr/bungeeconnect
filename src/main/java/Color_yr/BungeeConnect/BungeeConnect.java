@@ -16,10 +16,6 @@ import net.md_5.bungee.config.YamlConfiguration;
 public class BungeeConnect extends Plugin {
     public static String Version = "1.0.0";
 
-    public static String Server1710;
-
-    public static String Server189;
-
     public static String Server1122A;
     public static String Server1122B;
     public static String Server1122C;
@@ -35,8 +31,6 @@ public class BungeeConnect extends Plugin {
     public static void loadconfig() {
         log.info("[BungeeConnect]你的配置文件版本是：" + config.getString("Version"));
 
-        Server1710 = config.getString("Server1710", "heartage0");
-        Server189 = config.getString("Server189", "heartage5");
         Server1122A = config.getString("Server1122A", "heartage1");
         Server1122B = config.getString("Server1122B", "heartage2");
         Server1122C = config.getString("Server1122C", "heartage3");

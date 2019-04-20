@@ -11,10 +11,10 @@ import net.md_5.bungee.event.EventHandler;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class Event implements Listener {
     static Map<String, String> players = new HashMap<String, String>();
+    public static Map<String, String> bind = new HashMap<String,String>();
 
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
@@ -22,11 +22,13 @@ public class Event implements Listener {
         ServerInfo Toserver = null;
         switch (Vision) {
             case 340:
-                BungeeConnect.log.info(players.toString());
-                if (players.size() == 0) {
+                String Formserver = bind.get(event.getPlayer().getDisplayName());
+                if (Formserver != null) {
+                    Toserver = ProxyServer.getInstance().getServerInfo(Formserver);
+                } else if (players.size() == 0) {
                     Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122A);
                 } else {
-                    String Formserver = players.get(event.getPlayer().getDisplayName());
+                    Formserver = players.get(event.getPlayer().getDisplayName());
                     if (BungeeConnect.Server1122A.equalsIgnoreCase(Formserver)) {
                         Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1122B);
                     } else if (BungeeConnect.Server1122B.equalsIgnoreCase(Formserver)) {
@@ -39,13 +41,13 @@ public class Event implements Listener {
                 }
                 break;
             case 5:
-                Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1710);
+                //Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1710);
                 break;
             case 404:
                 Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server1132);
                 break;
             case 47:
-                Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server189);
+                //Toserver = ProxyServer.getInstance().getServerInfo(BungeeConnect.Server189);
                 break;
             default:
                 logs logs = new logs();
@@ -53,7 +55,7 @@ public class Event implements Listener {
                 break;
         }
         if (Toserver != null) {
-            event.getPlayer().sendMessage(new TextComponent("[BungeeConnect]已将你传送至"+Toserver.getName()));
+            event.getPlayer().sendMessage(new TextComponent("[BungeeConnect]已将你传送至" + Toserver.getName()));
             event.getPlayer().connect(Toserver);
         }
     }
@@ -63,7 +65,6 @@ public class Event implements Listener {
         if (!event.getKickedFrom().getName().equals(BungeeConnect.Servers)) {
             players.put(event.getPlayer().getDisplayName(), event.getKickedFrom().getName());
         }
-        event.getPlayer().sendMessage(new TextComponent("[BungeeConnect]无法进入服务器"+event.getKickedFrom().getName()));
-
+        event.getPlayer().sendMessage(new TextComponent("[BungeeConnect]无法进入服务器" + event.getKickedFrom().getName()));
     }
 }

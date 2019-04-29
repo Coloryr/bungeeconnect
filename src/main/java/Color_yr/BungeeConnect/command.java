@@ -19,12 +19,7 @@ public class command extends Command {
     public void execute(CommandSender sender, String[] args) {
         if (args[0].equalsIgnoreCase("reload") && sender.hasPermission("bc.admin")) {
             BungeeConnect.reloadConfig();
-            sender.sendMessage(new TextComponent("&6[BungeeConnect]已重读配置文件"));
-            sender.sendMessage(new TextComponent("&6[BungeeConnect]1.12.2A传送至" + BungeeConnect.Server1122A));
-            sender.sendMessage(new TextComponent("&6[BungeeConnect]1.12.2B传送至" + BungeeConnect.Server1122B));
-            sender.sendMessage(new TextComponent("&6[BungeeConnect]1.12.2B传送至" + BungeeConnect.Server1122C));
-            sender.sendMessage(new TextComponent("&6[BungeeConnect]1.13.2传送至" + BungeeConnect.Server1132));
-            sender.sendMessage(new TextComponent("&6[BungeeConnect]默认传送至" + BungeeConnect.Servers));
+            sender.sendMessage(new TextComponent("§6[BungeeConnect]已重读配置文件"));
             return;
         } else if (args[0].equalsIgnoreCase("bind")) {
             if (args.length > 1) {
@@ -36,14 +31,21 @@ public class command extends Command {
                     String server_name = server.getName();
                     if (server_name.equalsIgnoreCase(args[1])) {
                         Event.bind.put(sender.getName(), server_name);
-                        sender.sendMessage(new TextComponent("&6[BungeeConnect]你已绑定服务器" + server_name + "在下次进服时直接进入该服。"));
+                        sender.sendMessage(new TextComponent("§6[BungeeConnect]你已绑定服务器" + server_name + "在下次进服时直接进入该服。"));
                         return;
                     }
                 }
-                sender.sendMessage(new TextComponent("&6[BungeeConnect]未找到服务器" + args[1]));
+                sender.sendMessage(new TextComponent("§6[BungeeConnect]未找到服务器" + args[1]));
                 return;
             } else {
-                sender.sendMessage(new TextComponent("&6[BungeeConnect]请输入你要绑定的服务器"));
+                sender.sendMessage(new TextComponent("§6[BungeeConnect]请输入你要绑定的服务器"));
+            }
+        } else if (args[0].equalsIgnoreCase("unbind")) {
+            if (Event.bind.containsKey(sender.getName()) == false) {
+                sender.sendMessage(new TextComponent("§6[BungeeConnect]你没有绑定服务器"));
+            } else {
+                Event.bind.remove(sender.getName());
+                sender.sendMessage(new TextComponent("§6[BungeeConnect]已取消绑定"));
             }
         }
         return;

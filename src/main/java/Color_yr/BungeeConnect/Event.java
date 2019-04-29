@@ -13,8 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Event implements Listener {
-    static Map<String, String> players = new HashMap<String, String>();
-    public static Map<String, String> bind = new HashMap<String,String>();
+    public static Map<String, String> bind = new HashMap<String, String>();
 
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
@@ -24,7 +23,14 @@ public class Event implements Listener {
         BungeeConnect.log.info(bind.toString());
         if (Formserver != null) {
             Toserver = ProxyServer.getInstance().getServerInfo(Formserver);
-        } else
+            if (Toserver != null) {
+                event.getPlayer().sendMessage(new TextComponent("§6[BungeeConnect]已将你传送至" + Toserver.getName()));
+                event.getPlayer().connect(Toserver);
+            }
+        } else {
+            event.getPlayer().sendMessage(new TextComponent("§6[BungeeConnect]你还没有绑定服务器，请输入/bc bind 服务器 来绑定服务器吧"));
+        }
+            /*
             switch (Vision) {
                 case 340:
                     if (players.size() == 0) {
@@ -55,18 +61,11 @@ public class Event implements Listener {
                     logs logs = new logs();
                     logs.log_write(event.toString() + "版本：" + Vision);
                     break;
-            }
-        if (Toserver != null) {
-            event.getPlayer().sendMessage(new TextComponent("[BungeeConnect]已将你传送至" + Toserver.getName()));
-            event.getPlayer().connect(Toserver);
-        }
+            }*/
     }
 
     @EventHandler
     public void onServerKickEvent(ServerKickEvent event) {
-        if (!event.getKickedFrom().getName().equals(BungeeConnect.Servers)) {
-            players.put(event.getPlayer().getDisplayName(), event.getKickedFrom().getName());
-        }
-        event.getPlayer().sendMessage(new TextComponent("[BungeeConnect]无法进入服务器" + event.getKickedFrom().getName()));
+
     }
 }

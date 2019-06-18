@@ -17,7 +17,6 @@ public class Event implements Listener {
 
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
-        int Vision = event.getPlayer().getPendingConnection().getVersion();
         ServerInfo Toserver = null;
         String Formserver = bind.get(event.getPlayer().getDisplayName());
         BungeeConnect.log.info(bind.toString());
@@ -26,6 +25,7 @@ public class Event implements Listener {
             if (Toserver != null) {
                 event.getPlayer().sendMessage(new TextComponent("§6[BungeeConnect]已将你传送至" + Toserver.getName()));
                 event.getPlayer().connect(Toserver);
+                event.getPlayer().setReconnectServer(Toserver);
             }
         } else {
             event.getPlayer().sendMessage(new TextComponent("§6[BungeeConnect]你还没有绑定服务器，请输入/bc bind 服务器 来绑定服务器吧"));

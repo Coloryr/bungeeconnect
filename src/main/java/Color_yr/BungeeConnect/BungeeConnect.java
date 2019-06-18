@@ -19,10 +19,13 @@ public class BungeeConnect extends Plugin {
     public static Configuration config;
     private static File FileName;
 
+    public static String lobby;
+
     public static Logger log = ProxyServer.getInstance().getLogger();
 
     public static void loadconfig() {
         log.info("[BungeeConnect]你的配置文件版本是：" + config.getString("Version"));
+        lobby = config.getString("lobby", "lobby");
     }
 
     public static void reloadConfig() {

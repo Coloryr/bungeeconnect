@@ -31,7 +31,8 @@ public class command extends Command {
                     String server_name = server.getName();
                     if (server_name.equalsIgnoreCase(args[1])) {
                         Event.bind.put(sender.getName(), server_name);
-                        sender.sendMessage(new TextComponent("§6[BungeeConnect]你已绑定服务器" + server_name + "在下次进服时直接进入该服。"));
+                        sender.sendMessage(new TextComponent("§6[BungeeConnect]" + sender.getName()
+                                + "你已绑定服务器" + server_name + "在下次进服时直接进入该服。"));
                         return;
                     }
                 }
@@ -42,12 +43,11 @@ public class command extends Command {
             }
         } else if (args[0].equalsIgnoreCase("unbind")) {
             if (Event.bind.containsKey(sender.getName()) == false) {
-                sender.sendMessage(new TextComponent("§6[BungeeConnect]你没有绑定服务器"));
+                sender.sendMessage(new TextComponent("§6[BungeeConnect]" +  sender.getName() + "你没有绑定服务器"));
             } else {
                 Event.bind.remove(sender.getName());
-                sender.sendMessage(new TextComponent("§6[BungeeConnect]已取消绑定"));
+                sender.sendMessage(new TextComponent("§6[BungeeConnect]" +  sender.getName() + "你已取消绑定"));
             }
         }
-        return;
     }
 }

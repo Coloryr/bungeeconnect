@@ -66,6 +66,10 @@ public class Event implements Listener {
 
     @EventHandler
     public void onServerKickEvent(ServerKickEvent event) {
-
+        if(Event.bind.containsKey(event.getPlayer().getName())==false)
+        {
+            event.getPlayer().connect(ProxyServer.getInstance().getServerInfo(BungeeConnect.lobby));
+            event.getPlayer().setReconnectServer(ProxyServer.getInstance().getServerInfo(BungeeConnect.lobby));
+        }
     }
 }

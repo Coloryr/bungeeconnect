@@ -17,9 +17,8 @@ public class Event implements Listener {
 
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
-        ServerInfo Toserver = null;
+        ServerInfo Toserver;
         String Formserver = bind.get(event.getPlayer().getDisplayName());
-        BungeeConnect.log.info(bind.toString());
         if (Formserver != null) {
             Toserver = ProxyServer.getInstance().getServerInfo(Formserver);
             if (Toserver != null) {
@@ -66,8 +65,7 @@ public class Event implements Listener {
 
     @EventHandler
     public void onServerKickEvent(ServerKickEvent event) {
-        if(Event.bind.containsKey(event.getPlayer().getName())==false)
-        {
+        if (Event.bind.containsKey(event.getPlayer().getName()) == false) {
             event.getPlayer().connect(ProxyServer.getInstance().getServerInfo(BungeeConnect.lobby));
             event.getPlayer().setReconnectServer(ProxyServer.getInstance().getServerInfo(BungeeConnect.lobby));
         }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.Collection;
 import java.util.logging.Logger;
 
 import net.md_5.bungee.api.ProxyServer;
@@ -17,28 +18,32 @@ public class BungeeConnect extends Plugin {
     public static String Version = "1.0.0";
 
     public static Configuration config;
-    private static File FileName;
+    public static File FileName;
 
     public static String lobby;
 
     public static Logger log = ProxyServer.getInstance().getLogger();
 
-    public static void loadconfig() {
+    public void loadconfig() {
         log.info("[BungeeConnect]你的配置文件版本是：" + config.getString("Version"));
-        lobby = config.getString("lobby", "lobby");
+        lobby = config.getString("lobby", "heartage0");
+
+        Configuration a = config.getSection("bind");
+        Collection<String> b = a.getKeys();
+        for (String c : b) {
+            String d = a.getString(c);
+            Event.bind.put(c, d);
+            log.info("玩家" + c + "绑定服务器：" + d);
+        }
     }
 
-    public static void reloadConfig() {
+    public void reloadConfig() {
         try {
             config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(FileName);
             loadconfig();
         } catch (Exception arg0) {
             log.warning("§6[BungeeConnect]配置文件读取错误：" + arg0.getMessage());
         }
-    }
-
-    public static Configuration getConfig() {
-        return config;
     }
 
     public void setConfig() {
@@ -60,13 +65,13 @@ public class BungeeConnect extends Plugin {
         } catch (IOException e) {
             log.warning("§d[BungeeConnect]§c日志文件错误：" + e);
         }
+        reloadConfig();
     }
 
     @Override
     public void onEnable() {
         log.info("§6[BungeeConnect]正在启动，插件交流群：571239090欢迎加入");
         setConfig();
-        reloadConfig();
         ProxyServer.getInstance().getPluginManager().registerListener(this, new Event());
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new command());
 

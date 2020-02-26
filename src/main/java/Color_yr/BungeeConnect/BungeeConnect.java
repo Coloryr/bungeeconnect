@@ -8,14 +8,13 @@ import java.util.Collection;
 import java.util.logging.Logger;
 
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 
 public class BungeeConnect extends Plugin {
-    public static String Version = "1.0.0";
+    public static String Version = "1.1.0";
 
     public static Configuration config;
     public static File FileName;
@@ -24,7 +23,7 @@ public class BungeeConnect extends Plugin {
 
     public static Logger log = ProxyServer.getInstance().getLogger();
 
-    public void loadconfig() {
+    private void loadConfig() {
         log.info("[BungeeConnect]你的配置文件版本是：" + config.getString("Version"));
         lobby = config.getString("lobby", "heartage0");
 
@@ -40,13 +39,13 @@ public class BungeeConnect extends Plugin {
     public void reloadConfig() {
         try {
             config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(FileName);
-            loadconfig();
+            loadConfig();
         } catch (Exception arg0) {
             log.warning("§6[BungeeConnect]配置文件读取错误：" + arg0.getMessage());
         }
     }
 
-    public void setConfig() {
+    private void setConfig() {
         FileName = new File(getDataFolder(), "config.yml");
         logs.file = new File(getDataFolder(), "logs.log");
         if (!getDataFolder().exists())

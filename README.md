@@ -1,3 +1,3 @@
-# BungeeConnect-
+# BungeeConnect
 
-根据游戏版本，进入不通的子服  
+让玩家直接进入绑定的子服 

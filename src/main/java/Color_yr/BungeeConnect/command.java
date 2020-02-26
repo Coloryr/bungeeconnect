@@ -21,23 +21,19 @@ public class command extends Command {
 
     public void execute(CommandSender sender, String[] args) {
         if (args[0].equalsIgnoreCase("reload") && sender.hasPermission("bc.admin")) {
-            BungeeConnect bc = new BungeeConnect();
-            bc.reloadConfig();
+            new BungeeConnect().reloadConfig();
             sender.sendMessage(new TextComponent("§6[BungeeConnect]已重读配置文件"));
-            return;
         } else if (args[0].equalsIgnoreCase("bind")) {
             if (args.length > 1) {
-                Map<String, ServerInfo> Server = ProxyServer.getInstance().getServers();
-                Collection<ServerInfo> values = Server.values();
-                Iterator<ServerInfo> iterator = values.iterator();
+                Iterator<ServerInfo> iterator = ProxyServer.getInstance().getServers().values().iterator();
                 while (iterator.hasNext()) {
                     ServerInfo server = iterator.next();
-                    String server_name = server.getName();
-                    if (server_name.equalsIgnoreCase(args[1])) {
-                        Event.bind.put(sender.getName(), server_name);
+                    String ServerName = server.getName();
+                    if (ServerName.equalsIgnoreCase(args[1])) {
+                        Event.bind.put(sender.getName(), ServerName);
                         BungeeConnect.config.set("bind", Event.bind);
                         sender.sendMessage(new TextComponent("§6[BungeeConnect]" + sender.getName()
-                                + "你已绑定服务器" + server_name + "在下次进服时直接进入该服。"));
+                                + "你已绑定服务器" + ServerName + "在下次进服时直接进入该服。"));
                         try {
                             ConfigurationProvider.getProvider(YamlConfiguration.class).save(BungeeConnect.config, BungeeConnect.FileName);
                         } catch (Exception e) {
@@ -47,12 +43,11 @@ public class command extends Command {
                     }
                 }
                 sender.sendMessage(new TextComponent("§6[BungeeConnect]未找到服务器" + args[1]));
-                return;
             } else {
                 sender.sendMessage(new TextComponent("§6[BungeeConnect]请输入你要绑定的服务器"));
             }
         } else if (args[0].equalsIgnoreCase("unbind")) {
-            if (Event.bind.containsKey(sender.getName()) == false) {
+            if (!Event.bind.containsKey(sender.getName())) {
                 sender.sendMessage(new TextComponent("§6[BungeeConnect]" + sender.getName() + "你没有绑定服务器"));
             } else {
                 Event.bind.remove(sender.getName());

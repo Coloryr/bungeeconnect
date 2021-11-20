@@ -1,24 +1,22 @@
-package Color_yr.BungeeConnect;
+package coloryr.bungeeconnect.Side.BC;
 
+import coloryr.bungeeconnect.BungeeConnect;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
-import net.md_5.bungee.api.event.ServerKickEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Event implements Listener {
-    public static Map<String, String> bind = new HashMap<>();
-
+public class EventBC implements Listener {
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
-        if(bind.containsKey(event.getPlayer().getName())) {
-            String ServerName = bind.get(event.getPlayer().getName());
+        if(BungeeConnect.config.bind.containsKey(event.getPlayer().getName())) {
+            String ServerName = BungeeConnect.config.bind.get(event.getPlayer().getName());
             if (ServerName != null) {
                 ServerInfo toServer = ProxyServer.getInstance().getServerInfo(ServerName);
                 if (toServer != null) {
@@ -34,9 +32,9 @@ public class Event implements Listener {
 
     @EventHandler
     public void onPlayerDisconnect(PlayerDisconnectEvent event) {
-        if (!Event.bind.containsKey(event.getPlayer().getName())) {
-            event.getPlayer().connect(ProxyServer.getInstance().getServerInfo(BungeeConnect.lobby));
-            event.getPlayer().setReconnectServer(ProxyServer.getInstance().getServerInfo(BungeeConnect.lobby));
+        if (!BungeeConnect.config.bind.containsKey(event.getPlayer().getName())) {
+            event.getPlayer().connect(ProxyServer.getInstance().getServerInfo(BungeeConnect.config.lobby));
+            event.getPlayer().setReconnectServer(ProxyServer.getInstance().getServerInfo(BungeeConnect.config.lobby));
         }
     }
 }
